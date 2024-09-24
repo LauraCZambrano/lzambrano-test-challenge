@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
+import { MercadopagoModule } from './mercadopago/mercadopago.module';
 
 @Module({
-    imports: [],
+    imports: [MercadopagoModule],
 })
 export class AppModule {}

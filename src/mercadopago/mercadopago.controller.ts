@@ -1,6 +1,9 @@
-import { Controller, Get, Post, Put } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { MercadopagoService } from './mercadopago.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+
 @ApiTags('mercadopago')
 @Controller('mercadopago')
 export class MercadopagoController {
@@ -13,7 +16,7 @@ export class MercadopagoController {
         description: 'Return all customers.',
     })
     async getCustomers() {
-        return 'GET ALL CUSTOMERS';
+        return this.mercadopagoService.getCustomers();
     }
 
     @Get('customers/:id')
@@ -23,8 +26,8 @@ export class MercadopagoController {
         status: 200,
         description: 'Return one customers.',
     })
-    async getOneCustomer() {
-        return 'GET ONE CUSTOMER';
+    async getOneCustomer(@Param('id') id: string) {
+        return this.mercadopagoService.getCustomerById(id);
     }
 
     @Post('customers')
@@ -33,8 +36,8 @@ export class MercadopagoController {
         status: 201,
         description: 'The customer has been successfully created.',
     })
-    async creaTeCustomer() {
-        return 'CREATE CUSTOMER';
+    async creaTeCustomer(@Body() createCustomerDto: CreateCustomerDto) {
+        return this.mercadopagoService.createCustomer(createCustomerDto);
     }
 
     @Put('customers/:id')
@@ -44,7 +47,10 @@ export class MercadopagoController {
         status: 200,
         description: 'The customer has been successfully updated.',
     })
-    async updateCustomer() {
-        return 'UPDATE CUSTOMER';
+    async updateCustomer(
+        @Param('id') id: string,
+        @Body() updateCustomerDto: UpdateCustomerDto,
+    ) {
+        return this.mercadopagoService.updateCustomer(id, updateCustomerDto);
     }
 }
